@@ -36,8 +36,6 @@ with open(filename) as file:
                 candidate_numbers[candidate] = []
             if is_adjacent_to_gear(number[0], number[1].span(), candidate[0], candidate[1].span()):
                 candidate_numbers[candidate].append(number[1].group())
-                
-    print(candidate_numbers)
 
     for candidate in candidate_numbers:
         if len(candidate_numbers[candidate]) == 2:

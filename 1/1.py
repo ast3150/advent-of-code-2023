@@ -17,21 +17,12 @@ def convert_to_number(match_obj):
     return str(switch.get(match_obj.group(),""))
 
 def readnumbers(line):
-    # while True:
-    print(line)
     line = re.sub(r"(one|two|three|four|five|six|seven|eight|nine|zero)", convert_to_number, line)
     line = re.sub(r"(one|two|three|four|five|six|seven|eight|nine|zero)", convert_to_number, line)
-    line = re.sub(r"(one|two|three|four|five|six|seven|eight|nine|zero)", convert_to_number, line)
-    line = re.sub(r"(one|two|three|four|five|six|seven|eight|nine|zero)", convert_to_number, line)
-    line = re.sub(r"(one|two|three|four|five|six|seven|eight|nine|zero)", convert_to_number, line)
-    print(line)
     numbers = re.findall(r"(\d)", line)
-    sum = int(numbers[0] + numbers[-1])
-    print(str(sum))
-    return sum
+    return int(numbers[0] + numbers[-1])
 
 with open(filename) as file:
     lines = [line.rstrip() for line in file]
     numbers = map(readnumbers, lines)
     print(sum(numbers))
-        
