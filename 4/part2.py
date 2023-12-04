@@ -2,7 +2,7 @@ import re
 from functools import cmp_to_key
 
 filename = "input.txt"
-cards_by_index = []
+memo = {}
 
 def get_wins(line: str):
     digits = r"(\d+)"
@@ -12,14 +12,19 @@ def get_wins(line: str):
     return len(set(winning_numbers).intersection(set(card_numbers)))
 
 def expand_cards(index: int, lines: [str]):
+    if index in memo:
+        return memo[index]
+
     wins = get_wins(lines[index])
     if wins == 0:
-        return lines[index]
+        result = lines[index]
     else:
         cards = []
         for win in range(1, wins+1):
             cards.append(expand_cards(index + win, lines))
-        return [lines[index]] + cards
+        result = [lines[index]] + cards
+    memo[index] = result
+    return result
 
 def flatten(A):
     rt = []
