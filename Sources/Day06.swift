@@ -1,4 +1,5 @@
 import Algorithms
+import Foundation
 
 struct Day06: AdventDay {
     typealias Race = (maxTime: Int, distance: Int)
@@ -29,7 +30,14 @@ struct Day06: AdventDay {
     
     /// Returns the number of winning scenarios for a given race, based on the distance travelled for a given press duration
     private func numberOfWinningOutcomesForRace(_ race: Race) -> Int {
-        return (0..<race.maxTime).map { distanceTravelled(at: $0, in: race) }.filter { $0 > race.distance }.count
+        var wins = 0
+        
+        for i in 0..<race.maxTime {
+            if distanceTravelled(at: i, in: race) > race.distance {
+                wins += 1
+            }
+        }
+        return wins
     }
     
     // Replace this with your solution for the first part of the day's challenge.
