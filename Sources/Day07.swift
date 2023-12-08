@@ -35,20 +35,6 @@ extension Day07 {
         
         enum HandType: Int {
             case highCard = 0, pair, twoPairs, threeOfAKind, fullHouse, fourOfAKind, fiveOfAKind
-            
-            func improved(numberOfJokers j: Int) -> HandType {
-                guard j < 5 else { return .fiveOfAKind }
-                
-                switch self {
-                case .highCard: return .pair
-                case .pair: return .threeOfAKind
-                case .twoPairs: return .threeOfAKind
-                case .threeOfAKind: return .fourOfAKind
-                case .fullHouse: return .fiveOfAKind
-                case .fourOfAKind: return .fiveOfAKind
-                case .fiveOfAKind: return .fiveOfAKind
-                }
-            }
         }
                 
         static func part1RulesSort(lhs: Day07.Hand, rhs: Day07.Hand) -> Bool {
