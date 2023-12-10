@@ -105,20 +105,22 @@ struct Day10: AdventDay {
     
     /// Returns the indices of all fileds that are connected to the given index
     private func findLoop(from startIndex: Int) -> Set<Int> {
-        var connectedNodes: Set<Int> = [startIndex]
-        
-        var countBefore = 0
-        var countAfter = 0
+        var visitedNodes: [Int] = []
+        var connectedNodes: [Int] = [startIndex]
+        var nodesToVisit: [Int] = [startIndex]
         
         repeat {
-            countBefore = connectedNodes.count
-            for node in connectedNodes {
-                connectedNodes.formUnion(getNodes(connectedTo: node))
+            let node = nodesToVisit.removeFirst()
+            visitedNodes.append(node)
+            getNodes(connectedTo: node).forEach { connectedNode in
+                if !visitedNodes.contains(connectedNode) {
+                    nodesToVisit.append(connectedNode)
+                }
+                connectedNodes.append(node)
             }
-            countAfter = connectedNodes.count
-        } while countBefore < countAfter
+        } while !nodesToVisit.isEmpty
         
-        return connectedNodes
+        return Set(connectedNodes)
     }
     
     private func getPosition(of index: Int) -> (row: Int, col: Int) {
