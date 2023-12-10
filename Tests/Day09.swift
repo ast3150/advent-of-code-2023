@@ -10,7 +10,7 @@ final class Day09Tests: XCTestCase {
 10 13 16 21 30 45
 """
 
-    func testPart1WithData1() throws {
+    func testPart1() throws {
         let challenge = Day09(data: testData)
         XCTAssertEqual(String(describing: challenge.part1()), "114")
     }
