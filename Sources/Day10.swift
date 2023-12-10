@@ -25,10 +25,9 @@ struct Day10: AdventDay {
         static let start: Direction = [.left, .right, .down, .up]
     }
     
-    var map: [Direction]
+    let map: [Direction]
     let lineLength: Int
     let startIndex: Int
-    var loop: Set<Int> = []
     
     init(data: String) {
         let lines = data.split(separator: "\n").map(String.init)
@@ -49,8 +48,6 @@ struct Day10: AdventDay {
         })
         self.lineLength = lines.first!.count
         self.startIndex = map.firstIndex(where: { $0 == .start })!
-        self.loop = findLoop(from: startIndex)
-        self.updateStartWithActualValue()
     }
     
     private func getNodes(connectedTo currentIndex: Int) -> [Int] {
@@ -84,7 +81,8 @@ struct Day10: AdventDay {
         return connectedNodes
     }
     
-    private mutating func updateStartWithActualValue() {
+    private func updateStartWithActualValue(map: [Direction]) -> [Direction] {
+        var map = map
         let startConnectedNodes = getNodes(connectedTo: startIndex)
         map[startIndex] = .init()
         if startConnectedNodes.contains(startIndex - lineLength) {
@@ -101,6 +99,7 @@ struct Day10: AdventDay {
         if startConnectedNodes.contains(startIndex + 1) {
             map[startIndex].insert(.right)
         }
+        return map
     }
     
     /// Returns the indices of all fileds that are connected to the given index
@@ -132,7 +131,7 @@ struct Day10: AdventDay {
     // MARK: - Challenge Functions
     
     func part1() -> Any {
-        return loop.count / 2
+        return findLoop(from: startIndex).count / 2
     }
     
     /// The second challenge part is to find the number of points contained within the loop.
@@ -146,6 +145,9 @@ struct Day10: AdventDay {
     ///
     /// [Even-Odd-Rule](https://en.wikipedia.org/wiki/Even%E2%80%93odd_rule)
     func part2() -> Any {
+        let loop = findLoop(from: startIndex)
+        let map = updateStartWithActualValue(map: map)
+        
         var numberOfContainedElements = 0
         // For every node in the map
         for node in 0..<map.count {
