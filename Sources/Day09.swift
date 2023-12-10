@@ -34,6 +34,6 @@ struct Day09: AdventDay {
     }
     
     func part2() -> Any {
-        return values.reduce(0, { $0 + getPrediction(for: $1) })
+        return values.reduce(0, { $0 + getPrediction(for: $1.reversed()) })
     }
 }
